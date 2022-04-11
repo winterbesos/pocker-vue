@@ -19,7 +19,7 @@ export default {
   methods: {
     replay: function() {
       axios
-        .post('http://poker.xsalo.com/card_tables/13/replay-events')
+        .post(this.GLOBAL.domain + '/card_tables/13/replay-events')
         .then(response => {
           console.log(response)
           this.selectedCards = []

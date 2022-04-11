@@ -57,12 +57,12 @@ export default {
     PokerCardGroup
   },
   mounted () {
-    this.timer = setInterval(this.refresh, 2000);
+    this.timer = setInterval(this.refresh, 1000);
   },
   methods: {
     refresh() {
       axios
-        .get('http://poker.xsalo.com/card_tables/13?player=' + this.myName)
+        .get(this.GLOBAL.domain + '/card_tables/13?player=' + this.myName)
         .then(response => this.game = response.data)
     }
   },

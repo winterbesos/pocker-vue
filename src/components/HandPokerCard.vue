@@ -59,7 +59,7 @@ export default {
   methods: {
     show: function() {
       axios
-        .post('http://poker.xsalo.com/card_tables/13/show-events', {
+        .post(this.GLOBAL.domain + '/card_tables/13/show-events', {
           player: this.player.name,
           cards: this.cleanSelectedCards,
         })
@@ -73,7 +73,7 @@ export default {
     },
     play: function() {
       axios
-        .post('http://poker.xsalo.com/card_tables/13/play-events', {
+        .post(this.GLOBAL.domain + '/card_tables/13/play-events', {
           player: this.player.name,
           cards: this.cleanSelectedCards,
         })
@@ -87,7 +87,7 @@ export default {
     },
     pass: function() {
       axios
-        .post('http://poker.xsalo.com/card_tables/13/pass-events', {
+        .post(this.GLOBAL.domain + '/card_tables/13/pass-events', {
           player: this.player.name,
         })
         .then(response => {
