@@ -62,7 +62,7 @@ export default {
   methods: {
     refresh() {
       axios
-        .get('http://localhost:3000/card_tables/13?player=' + this.myName)
+        .get('http://poker.xsalo.com/card_tables/13?player=' + this.myName)
         .then(response => this.game = response.data)
     }
   },
