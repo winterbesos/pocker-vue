@@ -176,7 +176,6 @@ export default {
 
 .side-player {
   display: flex;
-  width: 150px;
 }
 
 .last-play-cards {
