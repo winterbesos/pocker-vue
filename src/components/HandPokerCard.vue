@@ -7,27 +7,33 @@
       <div v-if="player.last_play.action == 'PASS'">PASS</div>
     </div>
 
-    <div class="options" v-if="player.playing && gameStatus == 2">
-      <button v-on:click="play">出牌</button>
-      <button v-if="player.passable" v-on:click="pass">过牌</button>
+    <div class="options">
+      <div v-if="player.playing && gameStatus == 2">
+        <button v-on:click="play">出牌</button>
+        <button v-if="player.passable" v-on:click="pass">过牌</button>
+      </div>
+
+      <div v-if="player.playing && gameStatus == 1">
+        <button v-on:click="show">{{showActionName}}</button>
+        <button v-on:click="pass">过</button>
+      </div>
     </div>
 
-    {{player.name}}
-    <div class="show-cards-transformed" style="margin-left: 5px" v-if="player.showCards != null">
-      <PokerCardGroup :cards="player.showCards" />
-    </div>
+    <div class="row">
+      <div>
+        {{player.name}}
+      </div>
 
-    <div class="options" v-if="player.playing && gameStatus == 1">
-      <button v-on:click="show">{{showActionName}}</button>
-      <button v-on:click="pass">过</button>
-    </div>
+      <div class="show-cards-transformed" style="margin-left: 5px" v-if="player.showCards != null">
+        <PokerCardGroup :cards="player.showCards" />
+      </div>
 
-    <div>
-      <span v-for="(card, index) in player.cards" :key="card" :style="{left: index * 25 + 'px', zIndex: index, top: selectedCards.includes(card) ? 60 + 'px' : 80 + 'px'}" v-on:click="clickCard(card)">
-        <PokerCard :value="card" />
-      </span>
+      <div class="cards">
+        <span v-for="(card, index) in player.cards" :key="card" :style="{left: index * 25 + 'px', zIndex: index, top: selectedCards.includes(card) ? 0 + 'px' : 20 + 'px'}" v-on:click="clickCard(card)">
+          <PokerCard :value="card" />
+        </span>
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -127,7 +133,13 @@ export default {
   width: 650px;
 }
 
-#hand span {
+.row {
+  display: flex;
+  flex-direction:row;
+  
+}
+
+.cards span {
   position: absolute;
 }
 
@@ -141,11 +153,17 @@ button {
 
 .last-play-cards {
   height: 100px;
-  transform: scale(0.5);
+  transform: scale(0.7);
 }
 
 .show-cards-transformed {
   /* 等同于变换: scaleX(2) scaleY(2);*/
   transform: scale(0.3);
+}
+
+.cards {
+  position: relative;
+  height: 150px;
+  width: 400px;
 }
 </style>

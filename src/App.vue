@@ -180,7 +180,7 @@ export default {
 }
 
 .last-play-cards {
-  transform: scale(0.5);
+  transform: scale(0.7);
 }
 
 .mid-flex-box {
