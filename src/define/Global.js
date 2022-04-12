@@ -1,5 +1,5 @@
-const domain = "http://localhost:3000"
-// const domain = "http://poker.xsalo.com"
+//const domain = "http://localhost:3000"
+const domain = "http://poker.xsalo.com"
 
 export default
 {
