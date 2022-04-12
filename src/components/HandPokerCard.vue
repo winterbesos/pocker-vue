@@ -1,10 +1,12 @@
 <template>
   <div id="hand">
-    <div v-if="player.last_play != null && !player.playing">
-      <div class="last-play-cards">
-        <PokerCardGroup v-if="player.last_play.cards != null" :cards="player.last_play.cards" />
+    <div class="pool">
+      <div v-if="player.last_play != null && !player.playing">
+        <div class="last-play-cards">
+          <PokerCardGroup v-if="player.last_play.cards != null" :cards="player.last_play.cards" />
+        </div>
+        <div v-if="player.last_play.action == 'PASS'">PASS</div>
       </div>
-      <div v-if="player.last_play.action == 'PASS'">PASS</div>
     </div>
 
     <div class="options">
@@ -19,20 +21,25 @@
       </div>
     </div>
 
+    <div v-if="rankingToDes(player.ranking) != null">{{rankingToDes(player.ranking)}}</div>
+
     <div class="row">
-      <div>
-        {{player.name}}
+      <div class="column column-center side-space">
+        <div style="text-align:left">{{player.name}}</div>
+
+        <div class="show-card-container margin-top-10">
+          <div class="show-cards-transformed" v-if="player.showCards != null">
+            <PokerCardGroup :cards="player.showCards" />
+          </div>
+        </div>
       </div>
 
-      <div class="show-cards-transformed" style="margin-left: 5px" v-if="player.showCards != null">
-        <PokerCardGroup :cards="player.showCards" />
-      </div>
-
-      <div class="cards">
+      <div class="cards" style="flex-grow: 1;">
         <span v-for="(card, index) in player.cards" :key="card" :style="{left: index * 25 + 'px', zIndex: index, top: selectedCards.includes(card) ? 0 + 'px' : 20 + 'px'}" v-on:click="clickCard(card)">
           <PokerCard :value="card" />
         </span>
       </div>
+      <div class="side-space"></div>
     </div>
   </div>
 </template>
@@ -65,6 +72,17 @@ export default {
     PokerCardGroup
   },
   methods: {
+    rankingToDes(ranking) {
+      if (ranking === 0) {
+        return '第一名'
+      } else if (ranking === 1) {
+        return '第二名'
+      } else if (ranking === 2) {
+        return '第三名'
+      } else {
+        return null
+      }
+    },
     show: function() {
       axios
         .post(this.GLOBAL.domain + '/card_tables/13/show-events', {
@@ -130,13 +148,11 @@ export default {
 <style scoped>
 #hand {
   position: relative;
-  width: 650px;
 }
 
 .row {
   display: flex;
   flex-direction:row;
-  
 }
 
 .cards span {
@@ -158,12 +174,20 @@ button {
 
 .show-cards-transformed {
   /* 等同于变换: scaleX(2) scaleY(2);*/
-  transform: scale(0.3);
+  transform: scale(0.4);
+}
+
+.pool {
+  height: 110px;
 }
 
 .cards {
   position: relative;
-  height: 150px;
-  width: 400px;
+  height: 170px;
+  width: 325px;
+}
+
+.side-space {
+  width: 80px;
 }
 </style>
