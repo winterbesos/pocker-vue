@@ -199,6 +199,10 @@ export default {
   width: 250px;
 }
 
+body {
+  background-color: lightgrey;
+}
+
 #app {
   position: relative;
   font-family: Avenir, Helvetica, Arial, sans-serif;
