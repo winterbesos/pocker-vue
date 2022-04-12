@@ -1,25 +1,48 @@
 <template>
   <div id="app">
     <div style="display: flex; justify-content: center;" v-if="croPlayer != null">
-      <div style="margin-top: 50px;">
-        {{(croPlayer.single ? '就剩一张了 ' : '')}}{{croPlayer.name}}{{ (croPlayer.playing ? ' 出牌中...' : '') }}
+      <div>
+        <div style="display:flex;flex-direction:row;">
+          <div style="flex-grow: 1;">
+          </div>
+          <div style="flex-grow: 1;">
+            <div>
+              {{croPlayer.name}}{{ (croPlayer.playing ? ' 出牌中...' : '') }}
+            </div>
+            <div>
+              {{(croPlayer.single ? '就剩一张了 ' : '')}}
+            </div>
+          </div>
+          <div class="show-cards-transformed" style="margin-left: 5px" v-if="croPlayer.showCards != null">
+            <PokerCardGroup :cards="croPlayer.showCards" />
+          </div>
+        </div>
+        <div style="margin-left: 5px;flex-grow: 1" v-if="croPlayer.last_play != null && !croPlayer.playing">
+          <div class="last-play-cards">
+            <PokerCardGroup v-if="croPlayer.last_play.cards != null" :cards="croPlayer.last_play.cards" />
+          </div>
+          <div v-if="croPlayer.last_play.action == 'PASS'">PASS</div>
+        </div>
       </div>
-      <div class="show-cards-transformed" style="margin-left: 5px" v-if="croPlayer.showCards != null">
-        <PokerCardGroup :cards="croPlayer.showCards" />
-      </div>
-      <div style="margin-left: 50px" v-if="croPlayer.last_play != null && !croPlayer.playing">
-        <PokerCardGroup v-if="croPlayer.last_play.cards != null" :cards="croPlayer.last_play.cards" />
-        <div v-if="croPlayer.last_play.action == 'PASS'">PASS</div>
-      </div>
+
     </div>
     <div class="mid-flex-box">
       <div class="side-player" v-if="prePlayer != null">
-        {{(prePlayer.single ? '就剩一张了 ' : '')}}{{prePlayer.name}}{{ (prePlayer.playing ? ' 出牌中...' : '') }}
-        <div class="show-cards-transformed" style="margin-left: 5px" v-if="prePlayer.showCards != null">
-          <PokerCardGroup :cards="prePlayer.showCards" />
+        <div style="width:100px">
+          <div>
+            {{prePlayer.name}}{{ (prePlayer.playing ? ' 出牌中...' : '') }}
+          </div>
+          <div>
+            {{(prePlayer.single ? '就剩一张了 ' : '')}}
+          </div>
+          <div class="show-cards-transformed" style="margin-left: 5px" v-if="prePlayer.showCards != null">
+            <PokerCardGroup :cards="prePlayer.showCards" />
+          </div>
         </div>
         <div v-if="prePlayer.last_play != null && !prePlayer.playing">
-          <PokerCardGroup v-if="prePlayer.last_play.cards != null" :cards="prePlayer.last_play.cards" />
+          <div class="last-play-cards">
+            <PokerCardGroup v-if="prePlayer.last_play.cards != null" :cards="prePlayer.last_play.cards" />
+          </div>
           <div v-if="prePlayer.last_play.action == 'PASS'">PASS</div>
         </div>
       </div>
@@ -27,13 +50,22 @@
         <PockerPool :finished="game == null ? true : game.status == 99" />
       </div>
       <div class="side-player" v-if="nxtPlayer != null">
-        {{(nxtPlayer.single ? '就剩一张了 ' : '')}}{{nxtPlayer.name}}{{ (nxtPlayer.playing ? ' 出牌中...' : '') }}
-        <div class="show-cards-transformed" style="margin-left: 5px" v-if="nxtPlayer.showCards != null">
-          <PokerCardGroup :cards="nxtPlayer.showCards" />
-        </div>
         <div v-if="nxtPlayer.last_play != null && !nxtPlayer.playing">
-          <PokerCardGroup v-if="nxtPlayer.last_play.cards != null" :cards="nxtPlayer.last_play.cards" />
+          <div class="last-play-cards">
+            <PokerCardGroup v-if="nxtPlayer.last_play.cards != null" :cards="nxtPlayer.last_play.cards" />
+          </div>
           <div v-if="nxtPlayer.last_play.action == 'PASS'">PASS</div>
+        </div>
+        <div>
+          <div>
+            {{nxtPlayer.name}}{{ (nxtPlayer.playing ? ' 出牌中...' : '') }}
+          </div>
+          <div>
+            {{(nxtPlayer.single ? '就剩一张了 ' : '')}}
+          </div>
+          <div class="show-cards-transformed" style="margin-left: 5px" v-if="nxtPlayer.showCards != null">
+            <PokerCardGroup :cards="nxtPlayer.showCards" />
+          </div>
         </div>
       </div>
     </div>
@@ -139,12 +171,16 @@ export default {
 <style>
 
 .show-cards-transformed {
-  /* 等同于变换: scaleX(2) scaleY(2);*/
-  transform: scale(0.3);
+  transform: scale(0.2);
 }
 
 .side-player {
+  display: flex;
   width: 150px;
+}
+
+.last-play-cards {
+  transform: scale(0.5);
 }
 
 .mid-flex-box {

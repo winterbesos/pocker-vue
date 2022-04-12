@@ -1,7 +1,9 @@
 <template>
   <div id="hand">
     <div v-if="player.last_play != null && !player.playing">
-      <PokerCardGroup v-if="player.last_play.cards != null" :cards="player.last_play.cards" />
+      <div class="last-play-cards">
+        <PokerCardGroup v-if="player.last_play.cards != null" :cards="player.last_play.cards" />
+      </div>
       <div v-if="player.last_play.action == 'PASS'">PASS</div>
     </div>
 
@@ -137,6 +139,10 @@ button {
   margin-right: 30px;
 }
 
+.last-play-cards {
+  height: 100px;
+  transform: scale(0.5);
+}
 
 .show-cards-transformed {
   /* 等同于变换: scaleX(2) scaleY(2);*/
