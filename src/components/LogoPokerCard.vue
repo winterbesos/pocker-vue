@@ -1,9 +1,7 @@
 <template>
   <div class="card">
     <img class="card-shadow" :src="src" />
-    <div class="count">
-        {{cardCountDes}}
-    </div>
+    <div class="count">{{cardCountDes}}</div>
   </div>
 </template>
 
@@ -28,7 +26,6 @@ export default {
 .card-shadow {
   width: 40px;
   height: 57px;
-  box-shadow: 1px 2px 5px 1px grey;
 }
 
 .count {

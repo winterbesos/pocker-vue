@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .group {
-  height: 80px;
+  height: 142px;
   display: flex;
   justify-content: center;
 }

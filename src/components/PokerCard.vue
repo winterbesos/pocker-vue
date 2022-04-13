@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <img class="card-shadow" :src="src" />
-  </div>
+  <img class="card-shadow" :src="src" />
 </template>
 
 <script>
@@ -21,8 +19,13 @@ export default {
 <style scoped>
 .card-shadow {
   width: 100px;
-  border-radius: 8px;
-  box-shadow: 1px 2px 5px 1px grey;
+  height: 100%;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 1px 2px 5px 1px black;
 }
 
+img {
+  object-fit: cover;
+  object-position: top;
+}
 </style>

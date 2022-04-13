@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
-    <div style="display: flex; justify-content: center;height:200px;" v-if="croPlayer != null">
+  <div id="app" :style="{backgroundImage: 'url(' + tableBg + ')'}">
+    <div style="display: flex; justify-content: center;" v-if="croPlayer != null">
       <div>
         <div class="row">
           <div style="flex-grow: 1;"></div>
           <div style="flex-grow: 1;">
-            <div style="text-align:left">{{croPlayer.name}}</div>
+            <div class="player-name" style="text-align:left">{{croPlayer.name}}</div>
             <div class="row">
               <div v-if="croPlayer.ranking == null">
                 <LogoPokerCard :single="croPlayer.single" />
@@ -18,74 +18,49 @@
             </div>
           </div>
         </div>
-          <div v-if="rankingToDes(croPlayer.ranking) != null">{{rankingToDes(croPlayer.ranking)}}</div>
-          <div v-if="croPlayer.last_play != null && !croPlayer.playing">
-            <div class="last-play-cards" v-if="croPlayer.last_play.cards != null">
-              <PokerCardGroup v-if="croPlayer.last_play.cards != null" :cards="croPlayer.last_play.cards" />
-            </div>
-            <div class="margin-top-50" v-if="croPlayer.last_play.action == 'PASS'">PASS</div>
-          </div>
-          <div class="margin-top-50" v-if="croPlayer.playing">思考中...</div>
+        <div v-if="rankingToDes(croPlayer.ranking) != null">{{rankingToDes(croPlayer.ranking)}}</div>
       </div>
-
     </div>
     <div class="mid-flex-box">
       <div class="side-player" v-if="prePlayer != null">
         <div class="column">
-          <div style="text-align:left">{{prePlayer.name}}</div>
+          <div class="player-name" style="text-align:right">{{prePlayer.name}}</div>
+
           <div class="row">
+            <div class="show-card-container" v-if="prePlayer.showCards != null && prePlayer.showCards.size != 0">
+              <div class="show-cards-transformed">
+                <PokerCardGroup :cards="prePlayer.showCards" />
+              </div>
+            </div>
+
             <div v-if="prePlayer.ranking == null">
               <LogoPokerCard :single="prePlayer.single" />
             </div>
           </div>
 
-          <div class="show-card-container margin-top-10" v-if="prePlayer.showCards != null && prePlayer.showCards.size != 0">
-            <div class="show-cards-transformed">
-              <PokerCardGroup :cards="prePlayer.showCards" />
-            </div>
-          </div>
         </div>
         <div v-if="rankingToDes(prePlayer.ranking) != null">{{rankingToDes(prePlayer.ranking)}}</div>
-        <div class="column column-center">
-          <div v-if="prePlayer.last_play != null && !prePlayer.playing">
-            <div class="last-play-cards" v-if="prePlayer.last_play.cards != null">
-              <PokerCardGroup v-if="prePlayer.last_play.cards != null" :cards="prePlayer.last_play.cards" />
-            </div>
-            <div class="margin-left-50" v-if="prePlayer.last_play.action == 'PASS'">PASS</div>
-          </div>
-          <div class="margin-left-50" v-if="prePlayer.playing">思考中...</div>
-        </div>
       </div>
 
       <div class="pool">
-        <PockerPool :finished="game == null ? true : game.status == 99" />
+        <PockerPool :croPlayer="croPlayer" :prePlayer="prePlayer" :nxtPlayer="nxtPlayer" :mePlayer="mePlayer" :finished="game == null ? true : game.status == 99" />
       </div>
 
       <div class="side-player" v-if="nxtPlayer != null">
-        <div class="column column-center">
-          <div v-if="nxtPlayer.last_play != null && !nxtPlayer.playing">
-            <div class="last-play-cards" v-if="nxtPlayer.last_play.cards != null">
-              <PokerCardGroup v-if="nxtPlayer.last_play.cards != null" :cards="nxtPlayer.last_play.cards" />
-            </div>
-
-            <div class="margin-right-50" v-if="nxtPlayer.last_play.action == 'PASS'">PASS</div>
-          </div>
-          <div class="margin-right-50" v-if="nxtPlayer.playing">思考中...</div>
-        </div>
-
         <div v-if="rankingToDes(nxtPlayer.ranking) != null">{{rankingToDes(nxtPlayer.ranking)}}</div>
         <div>
-          <div style="text-align:left">
-            {{nxtPlayer.name}}
-          </div>
+          <div class="player-name" style="text-align:left">{{nxtPlayer.name}}</div>
 
-          <div v-if="nxtPlayer.ranking == null">
-            <LogoPokerCard :single="nxtPlayer.single" />
-          </div>
-          <div class="row row-right">
-            <div class="show-card-container margin-top-10" v-if="nxtPlayer.showCards != null && nxtPlayer.showCards.size != 0">
-              <div class="show-cards-transformed" v-if="nxtPlayer.showCards != null">
-                <PokerCardGroup :cards="nxtPlayer.showCards" />
+          <div class="row">
+            <div v-if="nxtPlayer.ranking == null">
+              <LogoPokerCard :single="nxtPlayer.single" />
+            </div>
+
+            <div class="row row-right">
+              <div class="show-card-container margin-left-10" v-if="nxtPlayer.showCards != null && nxtPlayer.showCards.size != 0">
+                <div class="show-cards-transformed" v-if="nxtPlayer.showCards != null">
+                  <PokerCardGroup :cards="nxtPlayer.showCards" />
+                </div>
               </div>
             </div>
           </div>
@@ -141,6 +116,9 @@ export default {
     }
   },
   computed: {
+    tableBg: function() {
+      return require('./assets/table_bg.png')
+    },
     logoCard: function() {
       return require('./assets/poker/logo_card.png')
     },
@@ -208,6 +186,10 @@ export default {
 </script>
 
 <style>
+
+.player-name {
+  color: white;
+}
 .margin-right-50 {
   margin-right: 50px;
 }
@@ -222,6 +204,10 @@ export default {
 
 .margin-left-10 {
   margin-left: 10px;
+}
+
+.margin-right-10 {
+  margin-right: 10px;
 }
 
 .margin-top-10 {
@@ -240,11 +226,18 @@ export default {
 
 .side-player {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .last-play-cards {
-  height: 100px;
-  transform: scale(0.7);
+  height: 86px;
+}
+
+.last-play-cards-transform {
+  transform-origin: top;
+  transform: scale(0.6);
 }
 
 .mid-flex-box {
@@ -252,19 +245,16 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  flex-grow: 1;
 }
 
 .pool {
   flex-grow: 1;
-  height: 150px;
-}
-
-.self-view {
-  width: 250px;
 }
 
 body {
-  background-color: lightgrey;
+  margin: 0;
+  background-color: #4A61A5;
 }
 
 .row {
@@ -290,11 +280,15 @@ body {
 }
 
 #app {
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   position: relative;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 </style>

@@ -1,15 +1,7 @@
 <template>
   <div id="hand">
-    <div class="pool">
-      <div v-if="player.last_play != null && !player.playing">
-        <div class="last-play-cards">
-          <PokerCardGroup v-if="player.last_play.cards != null" :cards="player.last_play.cards" />
-        </div>
-        <div v-if="player.last_play.action == 'PASS'">PASS</div>
-      </div>
-    </div>
-
     <div class="options">
+
       <div v-if="player.playing && gameStatus == 2">
         <button v-on:click="play">出牌</button>
         <button v-if="player.passable" v-on:click="pass">过牌</button>
@@ -25,7 +17,7 @@
 
     <div class="row">
       <div class="column column-center side-space">
-        <div style="text-align:left">{{player.name}}</div>
+        <!-- <div style="text-align:left">{{player.name}}</div> -->
 
         <div class="show-card-container margin-top-10">
           <div class="show-cards-transformed" v-if="player.showCards != null">
@@ -35,9 +27,9 @@
       </div>
 
       <div class="cards" style="flex-grow: 1;">
-        <span v-for="(card, index) in player.cards" :key="card" :style="{left: index * 25 + 'px', zIndex: index, top: selectedCards.includes(card) ? 0 + 'px' : 20 + 'px'}" v-on:click="clickCard(card)">
+        <div class="card" v-for="(card, index) in player.cards" :key="card" :style="{zIndex: index, top: selectedCards.includes(card) ? 0 + 'px' : 20 + 'px', height: selectedCards.includes(card) ? 110 + 'px' : 90 + 'px'}" v-on:click="clickCard(card)">
           <PokerCard :value="card" />
-        </span>
+        </div>
       </div>
       <div class="side-space"></div>
     </div>
@@ -155,21 +147,21 @@ export default {
   flex-direction:row;
 }
 
-.cards span {
-  position: absolute;
+.card {
+  position: relative;
+  height: 90px;
+  width: 25px;
 }
 
 .options {
-  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
 button {
   margin-right: 30px;
-}
-
-.last-play-cards {
-  height: 100px;
-  transform: scale(0.7);
 }
 
 .show-cards-transformed {
@@ -177,14 +169,11 @@ button {
   transform: scale(0.4);
 }
 
-.pool {
-  height: 110px;
-}
-
 .cards {
-  position: relative;
-  height: 170px;
+  display: flex;
   width: 325px;
+  height: 110px;
+  clip: rect(0, 0, 0, 70px);
 }
 
 .side-space {
