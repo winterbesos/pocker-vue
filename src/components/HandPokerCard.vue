@@ -3,17 +3,17 @@
     <div class="options">
 
       <div v-if="player.playing && gameStatus == 2">
-        <button v-on:click="play">出牌</button>
         <button v-if="player.passable" v-on:click="pass">过牌</button>
+        <button v-on:click="play">出牌</button>
       </div>
 
       <div v-if="player.playing && gameStatus == 1">
-        <button v-on:click="show">{{showActionName}}</button>
         <button v-on:click="pass">过</button>
+        <button v-on:click="show">{{showActionName}}</button>
       </div>
     </div>
 
-    <div v-if="rankingToDes(player.ranking) != null">{{rankingToDes(player.ranking)}}</div>
+    <div class="white" v-if="rankingToDes(player.ranking) != null">{{rankingToDes(player.ranking)}}</div>
 
     <div class="row">
       <div class="column column-center side-space">

@@ -18,7 +18,7 @@
             </div>
           </div>
         </div>
-        <div v-if="rankingToDes(croPlayer.ranking) != null">{{rankingToDes(croPlayer.ranking)}}</div>
+        <div class="white" v-if="rankingToDes(croPlayer.ranking) != null">{{rankingToDes(croPlayer.ranking)}}</div>
       </div>
     </div>
     <div class="mid-flex-box">
@@ -39,7 +39,7 @@
           </div>
 
         </div>
-        <div v-if="rankingToDes(prePlayer.ranking) != null">{{rankingToDes(prePlayer.ranking)}}</div>
+        <div class="white" v-if="rankingToDes(prePlayer.ranking) != null">{{rankingToDes(prePlayer.ranking)}}</div>
       </div>
 
       <div class="pool">
@@ -47,7 +47,7 @@
       </div>
 
       <div class="side-player" v-if="nxtPlayer != null">
-        <div v-if="rankingToDes(nxtPlayer.ranking) != null">{{rankingToDes(nxtPlayer.ranking)}}</div>
+        <div class="white" v-if="rankingToDes(nxtPlayer.ranking) != null">{{rankingToDes(nxtPlayer.ranking)}}</div>
         <div>
           <div class="player-name" style="text-align:left">{{nxtPlayer.name}}</div>
 
@@ -279,7 +279,13 @@ body {
   align-items: flex-end;
 }
 
+.white {
+  color: white;
+}
+
 #app {
+  overflow: hidden;
+  overscroll-behavior-y: none;
   padding-left: 20px;
   padding-right: 20px;
   height: 100vh;
