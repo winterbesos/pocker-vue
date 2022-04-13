@@ -18,7 +18,6 @@
             </div>
           </div>
         </div>
-        <div class="white" v-if="rankingToDes(croPlayer.ranking) != null">{{rankingToDes(croPlayer.ranking)}}</div>
       </div>
     </div>
     <div class="mid-flex-box">
@@ -39,7 +38,6 @@
           </div>
 
         </div>
-        <div class="white" v-if="rankingToDes(prePlayer.ranking) != null">{{rankingToDes(prePlayer.ranking)}}</div>
       </div>
 
       <div class="pool">
@@ -47,7 +45,6 @@
       </div>
 
       <div class="side-player" v-if="nxtPlayer != null">
-        <div class="white" v-if="rankingToDes(nxtPlayer.ranking) != null">{{rankingToDes(nxtPlayer.ranking)}}</div>
         <div>
           <div class="player-name" style="text-align:left">{{nxtPlayer.name}}</div>
 
@@ -97,17 +94,6 @@ export default {
         .get(this.GLOBAL.domain + '/card_tables/13?player=' + this.myName)
         .then(response => this.game = response.data)
     },
-    rankingToDes(ranking) {
-      if (ranking === 0) {
-        return '第一名'
-      } else if (ranking === 1) {
-        return '第二名'
-      } else if (ranking === 2) {
-        return '第三名'
-      } else {
-        return null
-      }
-    }
   },
   data() {
     return {
@@ -202,6 +188,10 @@ export default {
   margin-top: 50px;
 }
 
+.margin-top-10 {
+  margin-top: 10px;
+}
+
 .margin-left-10 {
   margin-left: 10px;
 }
@@ -264,6 +254,10 @@ body {
 
 .row-right {
   justify-content: flex-end;
+}
+
+.row-vertical-center {
+  align-items: center;
 }
 
 .column {

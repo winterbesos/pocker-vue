@@ -1,19 +1,16 @@
 <template>
   <div id="hand">
     <div class="options">
-
-      <div v-if="player.playing && gameStatus == 2">
+      <div class="options-group" v-if="player.playing && gameStatus == 2">
         <button v-if="player.passable" v-on:click="pass">过牌</button>
         <button v-on:click="play">出牌</button>
       </div>
 
-      <div v-if="player.playing && gameStatus == 1">
+      <div class="options-group" v-if="player.playing && gameStatus == 1">
         <button v-on:click="pass">过</button>
         <button v-on:click="show">{{showActionName}}</button>
       </div>
     </div>
-
-    <div class="white" v-if="rankingToDes(player.ranking) != null">{{rankingToDes(player.ranking)}}</div>
 
     <div class="row">
       <div class="column column-center side-space">
@@ -64,17 +61,6 @@ export default {
     PokerCardGroup
   },
   methods: {
-    rankingToDes(ranking) {
-      if (ranking === 0) {
-        return '第一名'
-      } else if (ranking === 1) {
-        return '第二名'
-      } else if (ranking === 2) {
-        return '第三名'
-      } else {
-        return null
-      }
-    },
     show: function() {
       axios
         .post(this.GLOBAL.domain + '/card_tables/13/show-events', {
@@ -158,9 +144,17 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   margin-bottom: 10px;
+  height: 25px;
 }
 
-button {
+.options-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.options-group button {
+  margin-left: 30px;
   margin-right: 30px;
 }
 
